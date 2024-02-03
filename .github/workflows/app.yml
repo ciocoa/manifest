@@ -31,8 +31,7 @@ jobs:
       - name: Build app
         run: |
           pyinstaller -F main.py
-          ls -la
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          path: dist/main.exe
+          path: dist/×.exe

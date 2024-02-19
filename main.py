@@ -58,7 +58,7 @@ def init_header():
 
 
 def init_repos():
-    repo_list = ['ciocoa/manifest']
+    repo_list = ['ciocoa/manifest', 'Onekey-Project/ManifestAutoUpdate-Cache']
     if args.repo:
         repo_list.insert(0, args.repo)
     log.debug(f'仓库信息: {repo_list}')
@@ -164,7 +164,7 @@ def get_manifest(repo: str, branch: str, path: str, steam_path: Path):
                 log.info(f'清单已下载: {path}')
             with save_path.open('wb') as f:
                 f.write(content)
-        if path.endswith('.vdf') and path in ['config.vdf']:
+        if path.endswith('.vdf') and path in ['config.vdf', 'Key.vdf']:
             content = raw_content(repo, branch, path).content
             with lock:
                 log.info(f'检测到密钥信息...')

@@ -2,8 +2,8 @@ name: App
 
 on:
   push:
-    branches: ["main"]
-    paths: ["*.py"]
+    branches: [ "main" ]
+    paths: [ "*.py" ]
   workflow_dispatch:
 
 permissions:
@@ -15,8 +15,8 @@ jobs:
     environment: app
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-latest"]
-        python-version: ["3.12"]
+        os: [ "ubuntu-latest", "windows-latest" ]
+        python-version: [ "3.12" ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
           pip install -r requirements.txt
       - name: Build app
         run: |
-          pyinstaller -F -n ${{ vars.NAME }} main.py
+          pyinstaller -F -i main.ico -n ${{ vars.NAME }} main.py
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

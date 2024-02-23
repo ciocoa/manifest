@@ -18,14 +18,14 @@ from retrying import retry
 
 
 def show_banner():
-    print(r'''
+    print(rf'''
     ________  ___  ________  ________  ________     
     |\   ____\|\  \|\   __  \|\   ____\|\   __  \    
     \ \  \___|\ \  \ \  \|\  \ \  \___|\ \  \|\  \   
      \ \  \    \ \  \ \  \\\  \ \  \    \ \  \\\  \  
       \ \  \____\ \  \ \  \\\  \ \  \____\ \  \\\  \ 
        \ \_______\ \__\ \_______\ \_______\ \_______\
-        \|_______|\|__|\|_______|\|_______|\|_______|
+        \|_______|\|__|\|_______|\|_______|\|__{version}__|
     ''')
 
 
@@ -43,7 +43,7 @@ def init_logger():
 
 def init_args():
     parser = ArgumentParser()
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s v2.0')
+    parser.add_argument('-v', '--version', action='version', version=f'%(prog)s v{version}')
     parser.add_argument('-a', '--appid', help='steam appid')
     parser.add_argument('-k', '--key', help='github API key')
     parser.add_argument('-r', '--repo', help='github repo name')
@@ -270,6 +270,7 @@ def main():
 
 
 if __name__ == '__main__':
+    version = '2.0'
     show_banner()
     args = init_args()
     log = init_logger()

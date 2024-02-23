@@ -43,7 +43,7 @@ def init_logger():
 
 def init_args():
     parser = ArgumentParser()
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 2.0')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s v2.0')
     parser.add_argument('-a', '--appid', help='steam appid')
     parser.add_argument('-k', '--key', help='github API key')
     parser.add_argument('-r', '--repo', help='github repo name')

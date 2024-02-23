@@ -199,7 +199,7 @@ def manifest(repo: str, branch: str, path: str, steam_path: Path, is_ddlc=False)
 def api_request(url: str):
     with httpx.Client() as client:
         log.debug(f'请求地址: {url}')
-        headers = {'Authorization': f'Bearer {args.key if args.key else ''}'}
+        headers = {'Authorization': f'Bearer {args.key}' if args.key else ''}
         result = client.get(url, headers=headers, follow_redirects=True)
         log.debug(f'结果响应: {result}')
         json: dict = result.json()

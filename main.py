@@ -29,17 +29,6 @@ def show_banner():
     ''')
 
 
-def init_args():
-    parser = ArgumentParser()
-    parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.0')
-    parser.add_argument('-a', '--appid', help='steam appid')
-    parser.add_argument('-k', '--key', help='github API key')
-    parser.add_argument('-r', '--repo', help='github repo name')
-    parser.add_argument('-f', '--fixed', action='store_true', help='fixed manifest')
-    parser.add_argument('-d', '--debug', action='store_true', help='debug mode')
-    return parser.parse_args()
-
-
 def init_logger():
     logger = logging.getLogger(__name__)
     level = logging.DEBUG if args.debug else logging.INFO
@@ -52,64 +41,72 @@ def init_logger():
     return logger
 
 
-def init_header():
-    access_token = args.key if args.key else ''
-    return {'Authorization': access_token}
+def init_args():
+    parser = ArgumentParser()
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 2.0')
+    parser.add_argument('-a', '--appid', help='steam appid')
+    parser.add_argument('-k', '--key', help='github API key')
+    parser.add_argument('-r', '--repo', help='github repo name')
+    parser.add_argument('-f', '--fixed', action='store_true', help='fixed manifest')
+    parser.add_argument('-d', '--debug', action='store_true', help='debug mode')
+    return parser.parse_args()
 
 
 def init_repos():
-    repo_list = ['ciocoa/manifest', 'Onekey-Project/ManifestAutoUpdate-Cache']
+    repo_list = ['Onekey-Project/ManifestAutoUpdate-Cache', 'ciocoa/manifest']
     if args.repo:
         repo_list.insert(0, args.repo)
-    log.debug(f'仓库信息: {repo_list}')
+    log.debug(f'已加载参数: {args}')
+    log.debug(f'已加载仓库: {repo_list}')
     return repo_list
 
 
 def check_steam_path():
-    hkey = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Valve\Steam')
-    steam_path = Path(winreg.QueryValueEx(hkey, 'SteamPath')[0])
-    log.info(f'Steam路径: {steam_path}')
-    return steam_path if 'steam.exe' in os.listdir(steam_path) else None
+    try:
+        hkey = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Valve\Steam')
+        steam_path = Path(winreg.QueryValueEx(hkey, 'SteamPath')[0])
+        if 'steam.exe' in os.listdir(steam_path):
+            log.info(f'检测到Steam: {steam_path}')
+            return steam_path
+    except Exception as e:
+        log.debug(e)
 
 
-@retry(wait_fixed=1000, stop_max_attempt_number=10)
+def check_stool_path(steam_path: Path):
+    try:
+        lua_path = steam_path / 'config' / 'stplug-in'
+        stool_path = steam_path / 'config' / 'stUI'
+        is_lua = 'luapacka.exe' in os.listdir(lua_path)
+        is_stool = 'Steamtools.exe' in os.listdir(stool_path)
+        if is_lua and is_stool:
+            log.info(f'检测到Stool: {stool_path}')
+            return lua_path, stool_path
+    except Exception as e:
+        log.debug(e)
+
+
 def check_api_limit():
-    with httpx.Client() as client:
-        res = client.get('https://api.github.com/rate_limit', headers=headers)
-        if res.status_code == 200:
-            log.debug(f'检测结果: {res.json()}')
-            reset = res.json()['rate']['reset']
-            remaining = res.json()['rate']['remaining']
-            log.info(f'剩余请求次数: {remaining}')
-            reset_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(reset))
-            return reset_time if remaining == 0 else None
+    limit_res: dict = api_request('https://api.github.com/rate_limit')
+    reset = limit_res['rate']['reset']
+    remaining = limit_res['rate']['remaining']
+    log.info(f'剩余请求次数: {remaining}')
+    reset_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(reset))
+    if remaining == 0:
+        return reset_time
 
 
 def check_curr_repo():
-    @retry(wait_fixed=1000, stop_max_attempt_number=10)
-    def get(r):
-        with httpx.Client() as client:
-            res = client.get(f'https://api.github.com/repos/{r}/branches/{appid}', headers=headers)
-            if res.status_code == 200 and 'commit' in res.json():
-                return res.json()['commit']['commit']['author']['date']
-
     last_date = None
     curr_repo = None
     for repo in repos:
-        date = get(repo)
-        if last_date is None or date > last_date:
-            last_date = date
-            curr_repo = repo
+        branch_res: dict = api_request(f'https://api.github.com/repos/{repo}/branches/{appid}')
+        if not (branch_res is None) and 'commit' in branch_res:
+            date = branch_res['commit']['commit']['committer']['date']
+            if last_date is None or date > last_date:
+                last_date = date
+                curr_repo = repo
     log.info(f'当前清单仓库: {curr_repo}')
     return curr_repo
-
-
-@retry(wait_fixed=1000, stop_max_attempt_number=10)
-def raw_content(repo: str, branch: str, path: str):
-    with httpx.Client() as client:
-        res = client.get(f'https://raw.githubusercontent.com/{repo}/{branch}/{path}', follow_redirects=True)
-        if res.status_code == 200:
-            return res
 
 
 def set_stool(steam_path: Path, lua_filename: str, lua_content: str):
@@ -124,30 +121,29 @@ def set_stool(steam_path: Path, lua_filename: str, lua_content: str):
     return output[output.index('to ') + 3:]
 
 
-def set_appinfo(depot_list: list, steam_path: Path, is_dlc=False, unkey=False):
+def set_appinfo(branch: str, depot_list: list, steam_path: Path, is_dlc=False):
     lua_content = ''
     for depot_id, depot_key in depot_list:
         lua_content += f'addappid({depot_id}, 1, "{depot_key}")\n' if depot_key else f'addappid({depot_id}, 1)\n'
-    lua_filename = f'{appid}_{'D' if is_dlc else 'A'}.lua'
+    lua_filename = f'{branch}_{'D' if is_dlc else 'A'}.lua'
     out_info = set_stool(steam_path, lua_filename, lua_content)
-    if not unkey:
-        log.info(f'{'DLC' if is_dlc else 'APP'}脚本已保存: {out_info}')
+    log.info(f'解锁信息已保存： {out_info}')
 
 
-def set_manifest(steam_path: Path):
-    if args.fixed:
-        log.info(f'检测到固定参数...')
-        lua_content = ''
-        new_list = [(x.split('_')[0], x.split('_')[1].split('.')[0]) for x in manifests]
-        for depot_id, manifest_id in new_list:
-            lua_content += f'setManifestid({depot_id}, "{manifest_id}")\n'
-        lua_filename = f'{appid}_F.lua'
-        out_info = set_stool(steam_path, lua_filename, lua_content)
-        log.info(f'清单版本已固定: {out_info}')
+def set_fixinfo(branch: str, steam_path: Path):
+    lua_content = ''
+    new_list = [(x.split('_')[0], x.split('_')[1].split('.')[0]) for x in manifests]
+    for depot_id, manifest_id in new_list:
+        lua_content += f'setManifestid({depot_id}, "{manifest_id}")\n'
+    lua_filename = f'{branch}_F.lua'
+    out_info = set_stool(steam_path, lua_filename, lua_content)
+    log.info(f'清单版本已固定: {out_info}')
 
 
-def get_manifest(repo: str, branch: str, path: str, steam_path: Path):
+def manifest(repo: str, branch: str, path: str, steam_path: Path, is_ddlc=False):
     try:
+        is_not_bundle = branch.isdecimal()
+        url = f'https://raw.githubusercontent.com/{repo}/{branch}/{path}'
         if path.endswith('.manifest'):
             manifests.append(path)
             depot_cache = steam_path / 'depotcache'
@@ -159,37 +155,108 @@ def get_manifest(repo: str, branch: str, path: str, steam_path: Path):
                 with lock:
                     log.warning(f'清单已存在: {path}')
                 return
-            content = raw_content(repo, branch, path).content
+            manifest_res = raw_content(url)
             with lock:
                 log.info(f'清单已下载: {path}')
             with save_path.open('wb') as f:
-                f.write(content)
+                f.write(manifest_res)
         if path.endswith('.vdf') and path in ['config.vdf', 'Key.vdf']:
-            content = raw_content(repo, branch, path).content
+            key_res = raw_content(url)
             with lock:
                 log.info(f'检测到密钥信息...')
-            depot_config = vdf.loads(content.decode())
+            depot_config = vdf.loads(key_res.decode())
             depot_dict: dict = depot_config['depots']
-            result = [(k, v['DecryptionKey']) for k, v in depot_dict.items()]
-            result.insert(0, (branch, None))
-            set_appinfo(result, steam_path)
+            depot_list = [(k, v['DecryptionKey']) for k, v in depot_dict.items()]
+            if is_not_bundle and not is_ddlc:
+                depot_list.insert(0, (branch, None))
+            log.debug(f'密钥信息: {depot_list}')
+            set_appinfo(branch, depot_list, steam_path)
         if path.endswith('.json') and path in ['config.json']:
-            content = raw_content(repo, branch, path).json()
-            dlcs: list[int] = content['dlcs']
-            result = [(k, None) for k in dlcs]
-            if len(result) > 0:
+            config_res = api_request(url)
+            dlcs: list[int] = config_res['dlcs'] if is_not_bundle else config_res['apps']
+            ddlc: list[str] = config_res['packagedlcs'] if 'packagedlcs' in config_res else None
+            depot_list = []
+            appname = 'DLC' if is_not_bundle else '捆绑包'
+            if not (dlcs is None) and len(dlcs) > 0:
                 with lock:
-                    log.info(f'检测到DLC信息...')
-                set_appinfo(result, steam_path, is_dlc=True)
+                    log.info(f'检测到{appname}信息 {dlcs}...')
+                depot_list.extend([(k, None) for k in dlcs])
+            if not (ddlc is None) and len(ddlc) > 0:
+                with lock:
+                    log.info(f'检测到独立DLC信息 {ddlc}...')
+                depot_list.extend([(k, None) for k in ddlc])
+                for dlc in ddlc:
+                    start(repo, dlc, steam_path, is_ddlc=True)
+            if len(depot_list) > 0:
+                log.debug(f'{appname}信息: {depot_list}')
+                set_appinfo(branch, depot_list, steam_path, is_dlc=True)
     except Exception as e:
         log.error(f'出现异常: {e}')
         raise
 
 
-def start():
+@retry(wait_fixed=1000, stop_max_attempt_number=10)
+def api_request(url: str):
+    with httpx.Client() as client:
+        log.debug(f'请求地址: {url}')
+        headers = {'Authorization': f'Bearer {args.key if args.key else ''}'}
+        result = client.get(url, headers=headers, follow_redirects=True)
+        log.debug(f'结果响应: {result}')
+        json: dict = result.json()
+        if result.status_code == 200:
+            log.debug(f'成功结果: {json}')
+            return json
+
+
+@retry(wait_fixed=1000, stop_max_attempt_number=10)
+def raw_content(url: str):
+    with httpx.Client() as client:
+        log.debug(f'请求地址: {url}')
+        result = client.get(url, follow_redirects=True)
+        log.debug(f'结果响应: {result}')
+        if result.status_code == 200:
+            return result.content
+
+
+def start(repo: str, branch: str, path: Path, is_ddlc=False):
+    branch_res: dict = api_request(f'https://api.github.com/repos/{repo}/branches/{branch}')
+    branch = branch_res['name']
+    tree_url = branch_res['commit']['commit']['tree']['url']
+    commit_date = branch_res['commit']['commit']['committer']['date']
+    tree_res = api_request(tree_url)
+    if 'tree' in tree_res:
+        if branch.isdecimal() and not is_ddlc:
+            set_appinfo(branch, [(branch, None)], path)
+        pool_list = []
+        with (Pool() as p):
+            p: ThreadPool
+            for i in tree_res['tree']:
+                pool_list.append(p.apply_async(manifest, (repo, branch, i['path'], path, is_ddlc)))
+                try:
+                    while True:
+                        if all([j.ready() for j in pool_list]):
+                            break
+                        time.sleep(0.1)
+                except KeyboardInterrupt:
+                    with lock:
+                        p.terminate()
+                    raise
+            if all([j.successful() for j in pool_list]):
+                if not is_ddlc:
+                    if args.fixed:
+                        set_fixinfo(branch, path)
+                    log.info(f'清单最后更新时间: {commit_date}')
+                    log.info(f'入库成功: {branch}')
+
+
+def main():
     steam_path = check_steam_path()
     if not steam_path:
         log.error(f'Steam路径不存在, 可能未安装')
+        return
+    stool_path = check_stool_path(steam_path)
+    if not stool_path:
+        log.error(f'Stool路径不存在, 可能未安装')
         return
     reset_time = check_api_limit()
     if reset_time:
@@ -197,41 +264,9 @@ def start():
         return
     curr_repo = check_curr_repo()
     if not curr_repo:
-        log.error(f'仓库无数据, 入库失败: {appid}')
+        log.error(f'仓库暂无数据, 入库失败: {appid}')
         return
-    try:
-        res = httpx.get(f'https://api.github.com/repos/{curr_repo}/branches/{appid}', headers=headers)
-        if res.status_code == 200 and 'commit' in res.json():
-            log.debug(f'远程信息: {res.json()}')
-            branch = res.json()['name']
-            tree_url = res.json()['commit']['commit']['tree']['url']
-            data = res.json()['commit']['commit']['author']['date']
-            r = httpx.get(tree_url, headers=headers)
-            if r.status_code == 200 and 'tree' in r.json():
-                log.debug(f'分支信息: {r.json()}')
-                set_appinfo([(appid, None)], steam_path, unkey=True)
-                pool_list = []
-                with (Pool() as p):
-                    p: ThreadPool
-                    for i in r.json()['tree']:
-                        pool_list.append(
-                            p.apply_async(get_manifest, (curr_repo, branch, i['path'], steam_path))
-                        )
-                        try:
-                            while True:
-                                if all([j.ready() for j in pool_list]):
-                                    break
-                                time.sleep(0.1)
-                        except KeyboardInterrupt:
-                            with lock:
-                                p.terminate()
-                            raise
-                    if all([j.successful() for j in pool_list]):
-                        set_manifest(steam_path)
-                        log.info(f'清单最后更新时间: {data}')
-                        log.info(f'入库成功: {appid}')
-    except httpx.HTTPError as e:
-        log.error(e)
+    start(curr_repo, appid, steam_path)
 
 
 if __name__ == '__main__':
@@ -240,7 +275,6 @@ if __name__ == '__main__':
     log = init_logger()
     manifests: list[str] = []
     try:
-        headers = init_header()
         repos = init_repos()
         lock = Lock()
         time.sleep(0.1)
@@ -248,11 +282,11 @@ if __name__ == '__main__':
         now = datetime.datetime.now()
         info = now.strftime('%Y-%m-%d %H:%M:%S,%f')[:-3]
         appid = args.appid or input(Fore.CYAN + f' {info} [INFO] 请输入appid: ')
-        start()
+        main()
     except KeyboardInterrupt:
         sys.exit()
     except Exception as err:
-        log.error(f'出现异常: {err}')
+        log.error(f'异常错误: {err}')
     if not args.appid:
         time.sleep(0.1)
         log.critical('运行结束')

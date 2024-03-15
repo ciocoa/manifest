@@ -53,7 +53,7 @@ def init_args():
 
 
 def init_repos():
-    repo_list = ['Onekey-Project/ManifestAutoUpdate-Cache', 'ciocoa/manifest']
+    repo_list = ['Onekey-Project/OnekeyPro', 'ciocoa/manifest']
     if args.repo:
         repo_list.insert(0, args.repo)
     log.debug(f'已加载参数: {args}')
@@ -270,7 +270,7 @@ def main():
 
 
 if __name__ == '__main__':
-    version = '2.0'
+    version = '2.1'
     show_banner()
     args = init_args()
     log = init_logger()

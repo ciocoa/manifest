@@ -1,7 +1,7 @@
-"appid" "2517300"
+"appid" "2517310"
 "common"
 {
-	"name" "Persona 3 Reload - Digital Artbook"
+	"name" "Persona 3 Reload - Digital Soundtrack"
 	"type" "DLC"
 	"parent" "2161700"
 	"releasestate" "released"
@@ -10,30 +10,31 @@
 	"osextended" ""
 	"name_localized"
 	{
-		"schinese" "PERSONA3 RELOAD Digital ART BOOK"
-		"koreana" "PERSONA3 RELOAD Digital ART BOOK"
-		"tchinese" "PERSONA3 RELOAD Digital ART BOOK"
-		"japanese" "PERSONA3 RELOAD Digital ART BOOK"
+		"koreana" "PERSONA3 RELOAD Digital Original Sound Track"
+		"schinese" "PERSONA3 RELOAD Digital Original Sound Track"
+		"tchinese" "PERSONA3 RELOAD Digital Original Sound Track"
+		"japanese" "PERSONA3 RELOAD Digital Original Sound Track"
 	}
-	"clienticon" "0c597ddd8bcff8419b9cea1e08047732fb544b3b"
-	"clienttga" "ee75f4c6e2ee79f0718d8c76654a8bb9cfb10721"
-	"content_descriptors"
-	{
-		"0" "1"
-		"1" "5"
-	}
+	"clienticon" "cebe99e70c104109c8bb04f1dd711569e4467588"
+	"clienttga" "cc24411285a681336f6abefc30b0fdbc378b06d2"
 	"controller_support" "full"
 	"small_capsule"
 	{
 		"english" "capsule_231x87.jpg"
+		"japanese" "capsule_231x87_japanese.jpg"
 		"schinese" "capsule_231x87_schinese.jpg"
+		"tchinese" "capsule_231x87_tchinese.jpg"
+		"koreana" "capsule_231x87_koreana.jpg"
 	}
 	"header_image"
 	{
 		"english" "header.jpg"
+		"japanese" "header_japanese.jpg"
 		"schinese" "header_schinese.jpg"
+		"tchinese" "header_tchinese.jpg"
+		"koreana" "header_koreana.jpg"
 	}
-	"store_asset_mtime" "1692716858"
+	"store_asset_mtime" "1692713138"
 	"associations"
 	{
 		"0"
@@ -64,73 +65,60 @@
 		"english"
 		{
 			"supported" "true"
-			"full_audio" "true"
 			"subtitles" "true"
 		}
 		"french"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"italian"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"german"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"spanish"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"japanese"
 		{
 			"supported" "true"
 			"full_audio" "true"
-			"subtitles" "true"
 		}
 		"koreana"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"polish"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"brazilian"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"russian"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"schinese"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"tchinese"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 		"turkish"
 		{
 			"supported" "true"
-			"subtitles" "true"
 		}
 	}
-	"steam_release_date" "1706850157"
-	"gameid" "2517300"
+	"steam_release_date" "1706850176"
+	"gameid" "2517310"
 	"store_tags"
 	{
 		"0" "122"
@@ -155,7 +143,7 @@
 		"19" "4325"
 	}
 	"review_score" "2"
-	"review_percentage" "17"
+	"review_percentage" "1"
 }
 "extended"
 {
@@ -168,80 +156,80 @@
 }
 "depots"
 {
-	"2517301"
+	"2517311"
 	{
 		"manifests"
 		{
 			"public"
 			{
-				"gid" "3773053318858649709"
-				"size" "650644715"
-				"download" "530637344"
+				"gid" "1834178036232257674"
+				"size" "650603954"
+				"download" "530587936"
 			}
 		}
 		"encryptedmanifests"
 		{
 			"dev_00"
 			{
-				"gid" "A5BB5C88CCBEEDB488C0E40186446A6F"
-				"size" "F145F79D6AD28551D3E0B25DA9062630"
-				"download" "D8A8A3A6811AA2F30C732DA48BAD3874"
+				"gid" "509A5062D6F2C1FF06A30C4EA50A3B85"
+				"size" "EEDF109792EF196C67F105563D572062"
+				"download" "23E216D6DD161F53618A872B54438F08"
 			}
 			"rel_00"
 			{
-				"gid" "7E8C1AB8306274D18093A9BA54C56F99"
-				"size" "B54FCC1F463CE98F305CA99B3A4994D6"
-				"download" "EE75CB66324AA7B0BE44EBF636F868C8"
+				"gid" "EA650D7139AB5233E9BE5F7EA633631B"
+				"size" "C77820FCF545ED984588E6BD898FA05C"
+				"download" "83AC6C7CDF37A86810AB854C8E8AD5EC"
 			}
 			"xeentest"
 			{
-				"gid" "86D6CD5EC3D09CA902775BE25C321FD3"
-				"size" "E59767BD3054A7B3FDCAC6CF76604015"
-				"download" "BF61ECA85DD3A0516615BE65573C7486"
+				"gid" "84C51E642D10AA5348F12A6001B78076"
+				"size" "734D4673C5C3D3E964C98F23561FF5D3"
+				"download" "CF92E7A2E3BCA98F36DBCA1CC6D04082"
 			}
 			"xeentest_dev"
 			{
-				"gid" "0361DF0DD759E981E8809FEF6F40BB50"
-				"size" "136A71480D4F42E4F81AA81B07FADD2A"
-				"download" "A95A4B1C604047F6DE9A23F182E195B4"
+				"gid" "FBFA699B9C3E01603302B2B512EE2856"
+				"size" "D73D9BEDD2BBC07ECF28DC23258E3267"
+				"download" "8D931C893004E5DCA2CB3B1C64F8C19B"
 			}
 		}
-		"dlcappid" "2517300"
+		"dlcappid" "2517310"
 	}
 	"branches"
 	{
 		"public"
 		{
-			"buildid" "13141974"
-			"timeupdated" "1705889557"
+			"buildid" "13142021"
+			"timeupdated" "1705889545"
 		}
 		"dev_00"
 		{
-			"buildid" "13132011"
+			"buildid" "13132004"
 			"pwdrequired" "1"
-			"timeupdated" "1704855891"
+			"timeupdated" "1704855982"
 		}
 		"rel_00"
 		{
-			"buildid" "13141974"
+			"buildid" "13142021"
 			"pwdrequired" "1"
-			"timeupdated" "1704939014"
+			"timeupdated" "1704939023"
 		}
 		"xeentest"
 		{
-			"buildid" "13141974"
+			"buildid" "13142021"
 			"pwdrequired" "1"
-			"timeupdated" "1704936785"
+			"timeupdated" "1704937083"
 		}
 		"xeentest_dev"
 		{
-			"buildid" "13132011"
+			"buildid" "13132004"
 			"pwdrequired" "1"
-			"timeupdated" "1704850836"
+			"timeupdated" "1704850855"
 		}
 	}
 }
 "_missing_token" "False"
-"_change_number" "22637459"
-"_sha" "92361b7914a408fc60c51cc5393bbf85a3f24951"
-"_size" "4270"
+"_change_number" "22466586"
+"_sha" "514c87ded764184c0c89d67d3cee6fac5b624801"
+"_size" "4193"

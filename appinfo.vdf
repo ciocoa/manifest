@@ -203,78 +203,15 @@
 		"depotfromapp" "228980"
 		"sharedinstall" "1"
 	}
-	"1566692"
-	{
-		"manifests"
-		{
-			"public"
-			{
-				"gid" "3375337798022239079"
-				"size" "37140960010"
-				"download" "31871803168"
-			}
-		}
-		"encryptedmanifests"
-		{
-			"compatibility"
-			{
-				"gid" "72FDBF78E0C797002796D17183788BC2"
-				"size" "DD6D8138C3858301D9AD9BF2541A127B"
-				"download" "936ACC4CB2FF39823F9E7A6FD9B500A4"
-			}
-			"develop"
-			{
-				"gid" "C31AC4F8C7C7B209FD74CE11E7D5253D"
-				"size" "2AC9DDB3E2EC51C0FF056E34DA93EFC1"
-				"download" "2A409A387EA01BAAC6760F9751E8FE29"
-			}
-			"lqabranch"
-			{
-				"gid" "2DAE4D113103242E16C744130C1DC4EE"
-				"size" "E648B7B4D6A98C6DCCE51818BA0D310C"
-				"download" "3632F69513F6677826C111227CBEEE06"
-			}
-			"prepublish"
-			{
-				"gid" "24BCA635D24A6D6D38021EB07DC75F04"
-				"size" "6E732595D0294B4B7D22A4DA637F719B"
-				"download" "5B745C6AC4096959F682391C5DC68200"
-			}
-			"preview"
-			{
-				"gid" "72CC8D17644F5BB7982830C2543001DB"
-				"size" "4E724007A7A360C5E3CB08211F16E0BB"
-				"download" "8E8C64D4805D7633F667EDFA990ECCEF"
-			}
-			"ptr_v1"
-			{
-				"gid" "669C07F40051F8DF01AEE69AC1C7F3BC"
-				"size" "B6C473F6B98F4744DCC7FFC962B44FA2"
-				"download" "F653BFDC64CEC1D0EB587C4CCC89FB81"
-			}
-			"releasev0.4"
-			{
-				"gid" "29B7AE172CB1F4B414B76FADC1C7072A"
-				"size" "C13E52732A9339FA5FBAABBBEB1022FF"
-				"download" "D18A870AD8D6E5913D13E29385E79089"
-			}
-			"releasev0.5"
-			{
-				"gid" "EDE97E508E382E0090446AEA8BC2D084"
-				"size" "A64367C38DA1B878B24F36F03D268D65"
-				"download" "EF19261174DBE4EA289EFC64685063F1"
-			}
-		}
-	}
 	"1566691"
 	{
 		"manifests"
 		{
 			"public"
 			{
-				"gid" "885329657425491201"
-				"size" "35787189700"
-				"download" "30732349632"
+				"gid" "7562865293786987668"
+				"size" "35805979808"
+				"download" "30859046016"
 			}
 		}
 		"encryptedmanifests"
@@ -303,41 +240,17 @@
 				"size" "DD6D8138C3858301D9AD9BF2541A127B"
 				"download" "70ED25A64A51D17674D4EE662472FCC3"
 			}
-			"develop"
-			{
-				"gid" "28AE7E879BE6A46D9ECA8068F378C39B"
-				"size" "2F7B72A482A2C5248E8C990ED1513749"
-				"download" "FCADBBE62589921657DEBDD234A465EC"
-			}
 			"lqabranch"
 			{
 				"gid" "B6D8F59BBA7486F011FCF5EAC75B2EC0"
 				"size" "C2BAD3178E8469F54AF8605673F0EB0A"
 				"download" "4C05EE5CB1875ED6A58F93B8C6D867F4"
 			}
-			"prepublish"
-			{
-				"gid" "89709652BE1DB1D629DB644C873D4D5A"
-				"size" "C07DB4CBC8C00FA4CE5C08F21B1EA54D"
-				"download" "163C1EE7E78FD40BF6B82D05715A77E8"
-			}
-			"preview"
-			{
-				"gid" "26732818D1BE377B58774904D14E92A1"
-				"size" "66EF9D77B721DB89EB131A0D86C74027"
-				"download" "4796EDD69B2FF43CB7B63E4265F8D5DF"
-			}
 			"profiler"
 			{
 				"gid" "AE6B0E51BE5CD8196AA362AC03F7B4AF"
 				"size" "8C0EA5106DDF1CCF1453D8BAB5DA2F3F"
 				"download" "A5930CDE7DAF4F543C864DF1C4D5C254"
-			}
-			"ptr_v1"
-			{
-				"gid" "B98F64CE03D67F2AC3A79FFAFB79ACDF"
-				"size" "A4A3230171508EBDAEA4235558ABFF93"
-				"download" "CD36D2494E306CD83D0C8A9D88E5660C"
 			}
 			"releasev0.3"
 			{
@@ -356,6 +269,30 @@
 				"gid" "FB87ECBB28DCF1F9C7C69577222347BA"
 				"size" "6A611FAE904ADA628269FCCB061184E9"
 				"download" "E2EED91838B9203AC90A40BA557701A6"
+			}
+			"develop"
+			{
+				"gid" "F685BE3A6D1DD1395C60A0B6BBCE3615"
+				"size" "558334F662EFCDA141DDA92DA442BFE7"
+				"download" "38818B611CAE07AB7F49CAA012426C17"
+			}
+			"prepublish"
+			{
+				"gid" "95F847AA4F959F8ECC178704411E0D89"
+				"size" "7881728E1469D77774F02410653B82D9"
+				"download" "EE12D010B0D79D4A841D2FB5C7861276"
+			}
+			"ptr_release"
+			{
+				"gid" "DBD53F7185A36D268A7C71A881FE33E7"
+				"size" "15E2072F4A609A0F4297322F0D26C767"
+				"download" "2BA75B87B1BFE2E662B5DAF820F1C65C"
+			}
+			"ptr_v1"
+			{
+				"gid" "1CC27F840E7B5AB6BBE360C192864FE6"
+				"size" "AA32DD08CDB5A9EDBE1902B92B38285B"
+				"download" "5FCB656773DB10C4E49E9751078D98D9"
 			}
 		}
 	}
@@ -378,18 +315,6 @@
 		}
 		"encryptedmanifests"
 		{
-			"develop"
-			{
-				"gid" "928E9EEC4AC3ECD291A11E22D04DDE56"
-				"size" "220A8B4C262A6C3AD6E8857FB80FB3BC"
-				"download" "C49A05597E44831925C10D0661DD6850"
-			}
-			"ptr_v1"
-			{
-				"gid" "249C7358B88BA030850F288B61E8035F"
-				"size" "5B4F5E2FDA37E52499D98A2DF91D86B6"
-				"download" "708E6F18DCD84BE7834FCAC1E39D931E"
-			}
 			"releasev0.4"
 			{
 				"gid" "3C2589C13FE5362D4B23A20C0508A0AF"
@@ -402,14 +327,65 @@
 				"size" "C377D48F3FE15A584E796DFA5008FEAB"
 				"download" "6E61ADD993FD00ACD9BF4178A65B689F"
 			}
+			"develop"
+			{
+				"gid" "928E9EEC4AC3ECD291A11E22D04DDE56"
+				"size" "220A8B4C262A6C3AD6E8857FB80FB3BC"
+				"download" "C49A05597E44831925C10D0661DD6850"
+			}
+			"ptr_release"
+			{
+				"gid" "DF66174213358713D1A49A43EE9133A4"
+				"size" "54C8B64D8691BC2A4118DFBCCAE9393D"
+				"download" "3B7E6BBAE810D2FC22C32CC735286C0C"
+			}
+			"ptr_v1"
+			{
+				"gid" "5B4A5D066257117EA4243EDB9962ABFF"
+				"size" "76C4C6BB25D4BD32548053E87F66319E"
+				"download" "90392339F3A4A97F51854CF6AF51EE49"
+			}
+		}
+	}
+	"1566694"
+	{
+		"manifests"
+		{
+			"public"
+			{
+				"gid" "4664124759470810609"
+				"size" "1003"
+				"download" "944"
+			}
+		}
+		"encryptedmanifests"
+		{
+			"prepublish"
+			{
+				"gid" "0E64CAE4128531F3B0EA9AADF3850CB5"
+				"size" "4AA455D24E37801989C95A6F1A99B31B"
+				"download" "38686D72985D9F4FB8CA569A5382B65E"
+			}
+			"ptr_release"
+			{
+				"gid" "41A725D2A36DD25B4B432971942F9341"
+				"size" "C8BBD9E3E88C25859D0CC610C033F620"
+				"download" "232B81104580AE425E49A12135C2D881"
+			}
+			"ptr_v1"
+			{
+				"gid" "40F23CFE15F674724CF8BE3536FB2B7C"
+				"size" "1B6EAE892712A1FBB243ED27FBA2EF27"
+				"download" "46F09906DFEB37F4996D54CFB81CD5B0"
+			}
 		}
 	}
 	"branches"
 	{
 		"public"
 		{
-			"buildid" "14011333"
-			"timeupdated" "1712762166"
+			"buildid" "14183168"
+			"timeupdated" "1714121035"
 		}
 		"20230526"
 		{
@@ -435,41 +411,17 @@
 			"pwdrequired" "1"
 			"timeupdated" "1710138630"
 		}
-		"develop"
-		{
-			"buildid" "13919117"
-			"pwdrequired" "1"
-			"timeupdated" "1712033404"
-		}
 		"lqabranch"
 		{
 			"buildid" "13819152"
 			"pwdrequired" "1"
 			"timeupdated" "1711090915"
 		}
-		"prepublish"
-		{
-			"buildid" "14010780"
-			"pwdrequired" "1"
-			"timeupdated" "1712759100"
-		}
-		"preview"
-		{
-			"buildid" "13832740"
-			"pwdrequired" "1"
-			"timeupdated" "1711209938"
-		}
 		"profiler"
 		{
 			"buildid" "11279160"
 			"pwdrequired" "1"
 			"timeupdated" "1684907703"
-		}
-		"ptr_v1"
-		{
-			"buildid" "14008506"
-			"pwdrequired" "1"
-			"timeupdated" "1712745536"
 		}
 		"releasev0.3"
 		{
@@ -488,6 +440,30 @@
 			"buildid" "13937361"
 			"pwdrequired" "1"
 			"timeupdated" "1712156155"
+		}
+		"develop"
+		{
+			"buildid" "14157154"
+			"pwdrequired" "1"
+			"timeupdated" "1713948960"
+		}
+		"prepublish"
+		{
+			"buildid" "14183114"
+			"pwdrequired" "1"
+			"timeupdated" "1714120635"
+		}
+		"ptr_release"
+		{
+			"buildid" "14185661"
+			"pwdrequired" "1"
+			"timeupdated" "1714135606"
+		}
+		"ptr_v1"
+		{
+			"buildid" "14185661"
+			"pwdrequired" "1"
+			"timeupdated" "1714135586"
 		}
 	}
 }
@@ -515,9 +491,20 @@
 			}
 			"recursive" "1"
 		}
+		"2"
+		{
+			"root" "WinAppDataLocal"
+			"path" "U01/Saved/SaveGames/{64BitSteamID}Pioneer"
+			"pattern" "*.sav"
+			"platforms"
+			{
+				"1" "Windows"
+			}
+			"recursive" "1"
+		}
 	}
 }
 "_missing_token" "False"
-"_change_number" "23103839"
-"_sha" "975d11eb3188eef90217fd3f2b69a12b1804d461"
-"_size" "10349"
+"_change_number" "23314785"
+"_sha" "6f3f8581e16f51bc6b2bb1a0c3fa33db07634f34"
+"_size" "9838"

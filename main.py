@@ -1,7 +1,6 @@
 import logging
 import os
 import subprocess
-import sys
 import time
 import winreg
 from argparse import ArgumentParser
@@ -51,11 +50,10 @@ class MainApp:
     def __init__(self):
         self.args = init_args()
         self.logr = self.init_logger()
-        self.repos = self.init_repos()
         self.manifests: list[str] = []
         self.depots: list[tuple[int, str | None]] = []
         self.lock = Lock()
-        self.appid = self.get_appid()
+        self.appinfo = self.get_appinfo()
 
     def init_logger(self):
         logger = logging.getLogger(__name__)
@@ -67,35 +65,23 @@ class MainApp:
         logger.setLevel(level)
         return logger
 
-    def init_repos(self):
+    def get_repos(self):
         repo_list = ['ciocoa/manifest']
         repo = self.args.repo
         if repo:
             repo_list.insert(0, repo)
         return repo_list
 
-    def get_appid(self):
+    def get_appinfo(self):
         input_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S,%f')[:-3]
         prompt = f'{Fore.CYAN} {input_time} [INFO] 请输入appid: '
         try:
             appid = self.args.appid or input(prompt)
-            return appid
+            return [appid]
         except KeyboardInterrupt:
-            sys.exit()
+            exit()
 
     def run(self):
-        try:
-            self.main()
-        except KeyboardInterrupt:
-            sys.exit()
-        except Exception as e:
-            self.logr.error(f'异常错误: {e}')
-        if not self.args.appid:
-            self.logr.critical('运行结束')
-            time.sleep(0.1)
-            subprocess.call('pause', shell=True)
-
-    def main(self):
         steam_path = self.check_steam_path()
         if not steam_path:
             self.logr.error(f'Steam路径不存在')
@@ -110,9 +96,18 @@ class MainApp:
             return
         curr_repo = self.check_curr_repo()
         if not curr_repo:
-            self.logr.error(f'仓库暂无数据, 入库失败: {self.appid}')
+            self.logr.error(f'仓库暂无数据, 入库失败: {self.appinfo[0]}')
             return
-        self.start(curr_repo, self.appid, steam_path)
+        try:
+            self.start(curr_repo, self.appinfo[0], steam_path)
+        except KeyboardInterrupt:
+            exit()
+        except Exception as e:
+            self.logr.error(f'异常错误: {e}')
+        if not self.args.appid:
+            self.logr.critical('运行结束')
+            time.sleep(0.1)
+            subprocess.call('pause', shell=True)
 
     def check_steam_path(self):
         try:
@@ -145,8 +140,9 @@ class MainApp:
     def check_curr_repo(self):
         last_date = None
         curr_repo = None
-        for repo in self.repos:
-            branch_res = self.api_request(f'https://api.github.com/repos/{repo}/branches/{self.appid}')
+        repos = self.get_repos()
+        for repo in repos:
+            branch_res = self.api_request(f'https://api.github.com/repos/{repo}/branches/{self.appinfo[0]}')
             if branch_res and 'commit' in branch_res:
                 date = branch_res['commit']['commit']['committer']['date']
                 if last_date is None or date > last_date:
@@ -177,7 +173,7 @@ class MainApp:
         if all(task.successful() for task in tasks) and not is_dlc:
             self.set_appinfo(path)
             self.logr.info(f'清单最后更新时间: {commit_date}')
-            self.logr.info(f'入库成功: {self.appid}')
+            self.logr.info(f'入库成功: {self.appinfo}')
 
     def manifest(self, repo: str, branch: str, path: str, steam_path: Path):
         try:
@@ -198,14 +194,18 @@ class MainApp:
                     self.logr.info(f'清单已下载: {path}')
                 with save_path.open('wb') as f:
                     f.write(manifest_res)
+            if path.endswith('.vdf') and path in ['appinfo.vdf']:
+                info_res = self.raw_content(url)
+                appinfo_config = vdf.loads(info_res.decode())
+                appinfo_dict: dict = appinfo_config['common']
+                self.appinfo.append(appinfo_dict['name'].replace('\u00A0', ' '))
             if path.endswith('.vdf') and path in ['config.vdf']:
                 key_res = self.raw_content(url)
-                with self.lock:
-                    self.logr.info(f'检测到密钥信息...')
                 depot_config = vdf.loads(key_res.decode())
                 depot_dict: dict = depot_config['depots']
                 self.depots.extend((int(k), v['DecryptionKey']) for k, v in depot_dict.items())
-                self.logr.debug(f'密钥信息: {depot_dict}')
+                with self.lock:
+                    self.logr.info(f'检测到密钥信息 {depot_dict}...')
             if path.endswith('.json') and path in ['config.json']:
                 config_res = self.api_request(url)
                 dlcs: list[int | str] = config_res['dlcs']
@@ -225,7 +225,6 @@ class MainApp:
     def set_appinfo(self, path: Path):
         depot_list = sorted(set(self.depots), key=lambda x: x[0])
         depot_list = remove_duplicates(depot_list)
-        self.logr.debug(depot_list)
         lua_content = ''.join(
             f'addappid({depot_id}, 1, "{depot_key}")\n' if depot_key else f'addappid({depot_id}, 1)\n' for
             depot_id, depot_key in depot_list)
@@ -235,8 +234,7 @@ class MainApp:
                 key=lambda x: x[0])
             lua_content += ''.join(
                 f'setManifestid({depot_id}, "{manifest_id}")\n' for depot_id, manifest_id in manifest_list)
-            self.logr.debug(manifest_list)
-        lua_filepath = path / 'config' / 'stplug-in' / f'{self.appid}.lua'
+        lua_filepath = path / 'config' / 'stplug-in' / f'{self.appinfo[0]} - {self.appinfo[1]}.lua'
         with open(lua_filepath, 'w') as f:
             f.write(lua_content)
         lua_packpath = path / 'config' / 'stplug-in' / 'luapacka.exe'
@@ -246,30 +244,31 @@ class MainApp:
         output = result.stdout.decode('utf-8').removesuffix('\r\n')
         self.logr.info(f'解锁信息已保存： {output}')
 
-    @retry(wait_fixed=1000, stop_max_attempt_number=10)
+    @retry(wait_fixed=5000, stop_max_attempt_number=10)
     def api_request(self, url: str):
         with httpx.Client() as client:
-            self.logr.debug(f'请求地址: {url}')
+            with self.lock:
+                self.logr.debug(f'请求地址: {url}')
             token = os.getenv('GITHUB_API_TOKEN') or self.args.key
             headers = {'Authorization': f'Bearer {token}' if token else ''}
             result = client.get(url, headers=headers, follow_redirects=True)
-            self.logr.debug(f'结果响应: {result}')
             json: dict = result.json()
             if result.status_code == 200:
-                self.logr.debug(f'成功结果: {json}')
+                with self.lock:
+                    self.logr.debug(f'成功结果: {json}')
                 return json
 
-    @retry(wait_fixed=1000, stop_max_attempt_number=10)
+    @retry(wait_fixed=5000, stop_max_attempt_number=10)
     def raw_content(self, url: str):
         with httpx.Client() as client:
-            self.logr.debug(f'请求地址: {url}')
+            with self.lock:
+                self.logr.debug(f'请求内容: {url}')
             result = client.get(url, follow_redirects=True)
-            self.logr.debug(f'结果响应: {result}')
             if result.status_code == 200:
                 return result.content
 
 
 if __name__ == '__main__':
-    version = '3.0'
+    version = '3.1'
     show_banner()
     MainApp().run()

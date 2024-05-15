@@ -39,6 +39,14 @@ def init_args():
     return parser.parse_args()
 
 
+def remove_duplicates(tuples: list[tuple[int, str | None]]):
+    result_dict = {}
+    for t in tuples:
+        if t[0] not in result_dict or (result_dict[t[0]][1] is None and t[1] is not None):
+            result_dict[t[0]] = t
+    return list(result_dict.values())
+
+
 class MainApp:
     def __init__(self):
         self.args = init_args()
@@ -216,6 +224,7 @@ class MainApp:
 
     def set_appinfo(self, path: Path):
         depot_list = sorted(set(self.depots), key=lambda x: x[0])
+        depot_list = remove_duplicates(depot_list)
         self.logr.debug(depot_list)
         lua_content = ''.join(
             f'addappid({depot_id}, 1, "{depot_key}")\n' if depot_key else f'addappid({depot_id}, 1)\n' for

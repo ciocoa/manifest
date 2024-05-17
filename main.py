@@ -227,7 +227,8 @@ class MainApp:
     def set_appinfo(self, path: Path):
         depot_list = sorted(set(self.depots), key=lambda x: x[0])
         depot_list = remove_duplicates(depot_list)
-        lua_content = ''.join(
+        lua_content = f'-- {self.appinfo[1]}\n'
+        lua_content += ''.join(
             f'addappid({depot_id}, 1, "{depot_key}")\n' if depot_key else f'addappid({depot_id}, 1)\n' for
             depot_id, depot_key in depot_list)
         if self.args.fixed:
@@ -236,7 +237,8 @@ class MainApp:
                 key=lambda x: x[0])
             lua_content += ''.join(
                 f'setManifestid({depot_id}, "{manifest_id}")\n' for depot_id, manifest_id in manifest_list)
-        lua_filepath = path / 'config' / 'stplug-in' / f'{self.appinfo[0]} - {self.appinfo[1]}.lua'
+        lua_filename = f'{self.appinfo[0]} - {self.appinfo[1]}.lua'
+        lua_filepath = path / 'config' / 'stplug-in' / lua_filename
         with open(lua_filepath, 'w') as f:
             f.write(lua_content)
         lua_packpath = path / 'config' / 'stplug-in' / 'luapacka.exe'

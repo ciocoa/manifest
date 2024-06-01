@@ -181,7 +181,7 @@ class MainApp:
             url = f'https://raw.githubusercontent.com/{repo}/{branch}/{path}'
             if path.endswith('.manifest'):
                 self.manifests.append(path)
-                depot_cache = steam_path / 'depotcache'
+                depot_cache = steam_path / 'config' / 'depotcache'
                 with self.lock:
                     if not depot_cache.exists():
                         depot_cache.mkdir(parents=True, exist_ok=True)
@@ -273,6 +273,6 @@ class MainApp:
 
 
 if __name__ == '__main__':
-    version = '3.1'
+    version = '3.1.1'
     show_banner()
     MainApp().run()

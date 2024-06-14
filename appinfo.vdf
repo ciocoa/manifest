@@ -1,0 +1,26 @@
+"appid" "2583430"
+"common"
+{
+	"name" "Alice in the Nightmare Land"
+	"type" "Game"
+	"releasestate" "released"
+	"name_localized"
+	{
+		"japanese" "夢獄の国のアリス"
+		"schinese" "梦狱之国的爱丽丝 ~猎奇密室逃脱游戏~"
+		"tchinese" "夢獄之國的愛麗絲 ~獵奇密室逃脫遊戲~"
+	}
+	"oslist" "windows"
+	"osarch" ""
+	"osextended" ""
+	"icon" "a27748bd10b860865994ddd3ce0803c2b50484d1"
+	"clienttga" "aac3807443ab7f24a1b1f2a6054daa92038b72f0"
+	"clienticon" "aafbea3fffbad1ef85b637359956c054b414c2c5"
+	"languages"
+	{
+		"english" "1"
+		"schinese" "1"
+		"tchinese" "1"
+		"japanese" "1"
+	}
+}

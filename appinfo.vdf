@@ -41,15 +41,30 @@
 	}
 	"steam_deck_compatibility"
 	{
-		"category" "1"
-		"test_timestamp" "1709683200"
+		"category" "2"
+		"test_timestamp" "1712793600"
 		"tested_build_id" "13445086"
 		"tests"
 		{
 			"0"
 			{
-				"display" "2"
-				"token" "#SteamDeckVerified_TestResult_UnsupportedGraphicsPerformance"
+				"display" "3"
+				"token" "#SteamDeckVerified_TestResult_InterfaceTextIsNotLegible"
+			}
+			"1"
+			{
+				"display" "4"
+				"token" "#SteamDeckVerified_TestResult_DefaultControllerConfigFullyFunctional"
+			}
+			"2"
+			{
+				"display" "4"
+				"token" "#SteamDeckVerified_TestResult_ControllerGlyphsMatchDeckDevice"
+			}
+			"3"
+			{
+				"display" "4"
+				"token" "#SteamDeckVerified_TestResult_DefaultConfigurationIsPerformant"
 			}
 		}
 		"configuration"
@@ -192,21 +207,21 @@
 		"2" "4434"
 		"3" "4231"
 		"4" "3843"
-		"5" "1684"
-		"6" "3859"
+		"5" "3859"
+		"6" "1684"
 		"7" "122"
-		"8" "1697"
-		"9" "4182"
-		"10" "7208"
+		"8" "7208"
+		"9" "1697"
+		"10" "4182"
 		"11" "4777"
 		"12" "4191"
 		"13" "7481"
 		"14" "1646"
 		"15" "4046"
-		"16" "12057"
-		"17" "4057"
+		"16" "4057"
+		"17" "4608"
 		"18" "6730"
-		"19" "4608"
+		"19" "12057"
 	}
 	"review_score" "8"
 	"review_percentage" "89"
@@ -216,7 +231,7 @@
 	"developer" "Cygames, Inc."
 	"publisher" "Cygames, Inc."
 	"homepage" "https://relink.granbluefantasy.jp/"
-	"listofdlc" "2183570,2694640,2694650,2694660,2694670,2710000,2782160,2782170,2782180,2782190,2782200,2799840,2799850"
+	"listofdlc" "2183570,2694640,2694650,2694660,2694670,2710000,2782160,2782170,2782180,2782190,2782200,2799840,2799850,2853950,2853960,2853970,2853980,2853990,2854000,2854010,2854020,2944840,2944850,2944860,2944870,2944880,2944890,2944900"
 	"dlcavailableonstore" "1"
 }
 "config"
@@ -283,9 +298,9 @@
 		{
 			"public"
 			{
-				"gid" "5441053063594789789"
-				"size" "85291072593"
-				"download" "56992577232"
+				"gid" "96435969733811286"
+				"size" "97501413881"
+				"download" "65154116368"
 			}
 		}
 		"encryptedmanifests"
@@ -301,12 +316,6 @@
 				"gid" "704EE6AE346D0B4601078434D3AAD2FC"
 				"size" "20965C9977DA5819D92AC8E7F8E22839"
 				"download" "309BAFB5CBFBC7EEDFCFFBC3CC88C82C"
-			}
-			"jenkinsjob"
-			{
-				"gid" "5DCBC1CF56DBA603B00A1D73CA569F51"
-				"size" "C812A8F8217E352E5D8AA9B5AAE8D057"
-				"download" "12C79D4F52E93B3BBBA6E66F6B6794C2"
 			}
 			"kgl-v1_0_1-master_qa"
 			{
@@ -340,27 +349,15 @@
 			}
 			"masterbr-v1_2-master"
 			{
-				"gid" "816CF017C3D6E847F8A8178D1FA7C0B8"
-				"size" "2C8468B9524F1E1E1F1DB11CB18A10F9"
-				"download" "80148747BA92654D0302E4475C548ED7"
+				"gid" "F49D52E9E2EF71F51203FF2C9219BD1F"
+				"size" "F47A12D528E1DE9F0E72F6986C6BAD49"
+				"download" "88697DD1C5ED3E0411D142DEFBAFDCAA"
 			}
 			"masterbr-v1_2-master_qa"
 			{
-				"gid" "1D26841D6A8B693A0EEFFC0227B7C761"
-				"size" "93B76FE1C063C25D88591CCDB588B231"
-				"download" "615195637CAD81032337C6CF5D270AE9"
-			}
-			"masterbr-v1_3-master"
-			{
-				"gid" "4D233F7068058C009B44FA917C7B95A8"
-				"size" "055E8A7F82A52E7B3356D36DE68779B7"
-				"download" "CCCFCCF3F5708299CC124E8E71007297"
-			}
-			"masterbr-v1_3-master_qa"
-			{
-				"gid" "AEA9AFDFA4E03C06B0B5B539D6DF7B2D"
-				"size" "2A4F0B88A189CCB67A4BFAB3FFE0EB45"
-				"download" "02EE65AA1C4FF607314FC2B947C10585"
+				"gid" "530A2B9F7314410E37C562733753E12C"
+				"size" "01025D8A487F09A475A7A34DEDB4A380"
+				"download" "C03BCFD43A66BCBA1048DC3ED9F0EB62"
 			}
 			"testbranch"
 			{
@@ -368,14 +365,44 @@
 				"size" "7E83912C43335F388E1ED1B0C33E4C7F"
 				"download" "051A19281AA1FBAE161E7B9E6FFD983D"
 			}
+			"jenkinsjob"
+			{
+				"gid" "ACB825C5195A2E8EAD86294CBA52A112"
+				"size" "88E6C7F98C11D8E656AE1263BCB6F481"
+				"download" "C897A0167EB089287C98E834CA6CD242"
+			}
+			"kanaria"
+			{
+				"gid" "60E4DF915F090CB5FF0FA88265CD9C8A"
+				"size" "A9B37FA5461AAC34E6297CDE21821B9C"
+				"download" "9160C76026FD0DCB93B6004A8BEEACCD"
+			}
+			"masterbr-v1_3-master"
+			{
+				"gid" "C40EE8FA8CC658CDD56A9C934E1CA81A"
+				"size" "D54CAAA210B6A2D03F4A43D030C50DD6"
+				"download" "259517A412B3B74ADCFCD69EFA526E6C"
+			}
+			"masterbr-v1_3-master_qa"
+			{
+				"gid" "E5674E756BF81F4CD395DA9ECD186563"
+				"size" "E8CC5457FBDF299D82279E0FF645BB62"
+				"download" "239B2A541880685A48ED1686AA5B1AD6"
+			}
+			"okameinko"
+			{
+				"gid" "051F6C283EBA9B9D7546894ECDF5BD2E"
+				"size" "7B1AA3F6AF138B7DB0BA5E4284747D97"
+				"download" "3CB50485179CA4DCA386421797226B5B"
+			}
 		}
 	}
 	"branches"
 	{
 		"public"
 		{
-			"buildid" "13912201"
-			"timeupdated" "1712552420"
+			"buildid" "14751212"
+			"timeupdated" "1719550819"
 		}
 		"ag-v1_0_1-master"
 		{
@@ -388,12 +415,6 @@
 			"buildid" "13170838"
 			"pwdrequired" "1"
 			"timeupdated" "1705287195"
-		}
-		"jenkinsjob"
-		{
-			"buildid" "13868455"
-			"pwdrequired" "1"
-			"timeupdated" "1711534473"
 		}
 		"kgl-v1_0_1-master_qa"
 		{
@@ -427,33 +448,51 @@
 		}
 		"masterbr-v1_2-master"
 		{
-			"buildid" "13971321"
+			"buildid" "14145265"
 			"pwdrequired" "1"
-			"timeupdated" "1712380037"
+			"timeupdated" "1713873798"
 		}
 		"masterbr-v1_2-master_qa"
 		{
-			"buildid" "13971313"
+			"buildid" "14145262"
 			"pwdrequired" "1"
-			"timeupdated" "1712379850"
-		}
-		"masterbr-v1_3-master"
-		{
-			"buildid" "13980634"
-			"pwdrequired" "1"
-			"timeupdated" "1712528225"
-		}
-		"masterbr-v1_3-master_qa"
-		{
-			"buildid" "13980637"
-			"pwdrequired" "1"
-			"timeupdated" "1712528303"
+			"timeupdated" "1713873765"
 		}
 		"testbranch"
 		{
 			"buildid" "13680146"
 			"pwdrequired" "1"
 			"timeupdated" "1710486042"
+		}
+		"jenkinsjob"
+		{
+			"buildid" "14400042"
+			"pwdrequired" "1"
+			"timeupdated" "1715932963"
+		}
+		"kanaria"
+		{
+			"buildid" "14581250"
+			"pwdrequired" "1"
+			"timeupdated" "1717462030"
+		}
+		"masterbr-v1_3-master"
+		{
+			"buildid" "14751212"
+			"pwdrequired" "1"
+			"timeupdated" "1718692955"
+		}
+		"masterbr-v1_3-master_qa"
+		{
+			"buildid" "14751225"
+			"pwdrequired" "1"
+			"timeupdated" "1718693082"
+		}
+		"okameinko"
+		{
+			"buildid" "14581218"
+			"pwdrequired" "1"
+			"timeupdated" "1717462047"
 		}
 	}
 }
@@ -472,6 +511,6 @@
 	}
 }
 "_missing_token" "False"
-"_change_number" "23067247"
-"_sha" "0201cd8d24418c7829a35255f3c4bbd9d71ab517"
-"_size" "10569"
+"_change_number" "24156889"
+"_sha" "af9d9ab41e8decce7a9d43ed14c02f6b3b634130"
+"_size" "11602"
